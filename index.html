@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142411721-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-142411721-1');
+  </script>
+
+  <script>
+   var isFirefox = typeof InstallTrigger !== 'undefined';
+   if (isFirefox == true){
+    alert('The web app is not supported by Firefox. PLease use new versions of Chrome, Safari, Opera')
+   }
+  </script>
+
+  <meta charset="utf-8">
+  <meta property="og:url" content="http://geneticgeography.com/index.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Genetic Geography of Terrestrial Mammals" />
+  <meta property="og:description" content="Interactive exploration of global patterns of mammal biodiversity and its drivers" />
+  <meta property="og:image" content="http://geneticgeography.com/img/pageThumb.png" />
+  
+  <script src='js/d3.v5.js'></script> <!--https://d3js.org/ -->
+  <script src='js/d3-geo-projection.v2.min.js'></script> <!--https://d3js.org/  -->
+  <script src='js/topojson.js'></script><!-- https://unpkg.com/topojson@3 -->
+  <script src='js/strabo.js'></script><!-- https://rawgit.com/spyrostheodoridis/strabo/master -->
+  <script src='js/simple-statistics.min.js'></script><!-- https://unpkg.com/simple-statistics@7.0.2/dist -->
+  <link rel='stylesheet' type='text/css' href='dashBoard.css'>
+  <title>Genetic Geography</title>
+</head>
+<body>
+<div class="wrapper">
+<div class="cont pageTitle">Genetic Geography of Terrestrial Mammals</div>
+
+<div class="cont cmecLogo">
+  <span><b>Centre for Macroecology, Evolution and Climate</b><br>Globe Institute, University of Copenhagen</span>
+  <img src="img/cmec.png" />
+</div>
+
+<div class='cont mainMap'>
+        <button type="button" class='zoomInMain'>+</button>
+        <button type="button" class='zoomOutMain'>-</button>
+    </div>
+    <div class='cont secMap'>
+        <button type="button" class='zoomInSec'>+</button>
+        <button type="button" class='zoomOutSec'>-</button>
+    </div>
+
+    <div class='cont controls'>
+
+        <div class='ctrHeader a'>Data set</div>
+        <div class='contr dataChoose'>       
+            <div class='locusLabel'>
+                <span>Gene</span>
+                <select class='locusSelect'>
+                    <option value='cytb'>cytb</option>
+                    <option value='co1'>co1</option>
+                </select>
+            </div>
+            <div class='scaleLabel'>
+                <span>Scale</span>
+                <select class='scaleSelect'>
+                    <option value='grid'>Grid</option>
+                    <option value='wallace'>Zoogeographic</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class='ctrHeader b'>Subset</div>
+        <div class='contr subsetChoose'>
+            <div class='taxonCoverLabel'>Min taxonomic coverage (%)
+                <div class='sliderTaxonCoverCont'></div>
+            </div>
+            
+            <div class='seqNumberLabel'>Min number of sequences
+                <div class='sliderSeqNumberCont'></div>
+            </div>
+        
+            <label class='orButton'>
+                <input name="boolBut" class='booleanButton' type="radio" checked value='or'/>
+                <span style="vertical-align: middle;">or</span>
+            </label>
+
+            <label class='andButton'>
+                <input name="boolBut" class='booleanButton' type="radio" value='and'/>
+                <span style="vertical-align: middle;">and</span>
+            </label>
+        </div>
+
+        <div class='ctrHeader c'>Variables</div>
+        <div class='contr variableChoose'>
+            <div class='responseLabel'>
+                <span>Response (y)</span>
+                <select class='responseSelect'>
+                    <option value='GD'>Genetic diversity</option>
+                    <option value='GDsqrt'>Genetic diversity (√)</option>
+                </select>
+            </div>
+            <div class='predictorLabel'>
+                <span>Independent (x)</span>
+                <select class='predictSelect'>
+                    <option value='PD'>Phylogenetic diversity</option>
+                    <option value='spRichness'>Species richness</option>
+                    <option value='tsTrend'>Tmp trend</option>
+                    <option value='tsVar'>Tmp variability</option>
+                    <option value='prTrend'>Prec trend</option>
+                    <option value='prVar'>Prec variability</option>
+                    <option value='HumanOld'>Historical Human</option>
+                    <option value='HumanNew'>Recent Human</option>
+                    <option disabled="disabled">----</option>
+                    <option value='gdSeqs'>Sampled sequences</option>
+                    <option value='gdTaxa'>Sampled species</option>
+                </select>
+            </div>
+        </div>
+
+        <div class='ctrHeader d'>Actions</div>
+        <div class='contr applyButtons'>
+            <div id='btnCont'>
+                <button type="button" class='updateBut'>Update</button>
+            </div>
+
+            <a id='downButtonCSV' download>
+                <button type="button" class='downloadButCSV'>Get csv</button>
+            </a>
+
+            <a id='downButtonJSON' download>
+                <button type="button" class='downloadButJSON'>Get geojson</button>
+            </a>
+
+            <a id='downButtonSeqs' download>
+                <button type="button" class='downloadButSeqs'>Get sequences</button>
+            </a>
+
+        </div>
+        
+
+    </div>
+
+  <div class='cont infoPanel'>
+      <div class='infoHead spatialUnitA'>Spatial unit summary</div>
+      <div class='info spatialUnitB'></div>
+      <div class='infoHead taxaA'><b>Genetic diversity </b> and <span style='color: grey; font-weight:bold;'>sampled species </span> per mammalian order</div>
+      <div class='info taxaB'>
+            <div class='order 1'></div>
+            <div class='order 2'></div>
+            <div class='order 3'></div>
+            <div class='order 4'></div>
+            <div class='order 5'></div>
+            <div class='order 6'></div>
+            <div class='order 7'></div>
+            <div class='order 8'></div>
+            <div class='order 9'></div>
+            <div class='order 10'></div>
+            <div class='order 11'></div>
+            <div class='order 12'></div>
+      </div>
+  </div>
+  <div class='cont xy'></div>
+
+<div class="cont footer">
+    <div class="linkContainer">
+    <a id="gitLink" href="https://github.com/spyrostheodoridis/">
+        <img id="gitLogo" src="img/github.png"></img>
+        <span>spyrostheodoridis</span>
+    </a>
+    </div>
+    <span style="color: black; font-size:1.6vmin;">Data from  Theodoridis et al. Evolutionary history and past climate change shape the distribution of genetic diversity in terrestrial mammals, 2020 <i>Nat. Comm.</i></span><span>&nbsp;</span>
+</div>
+
+</div>
+</body>
+<script src="js/geneticGeography.js"></script></html>
