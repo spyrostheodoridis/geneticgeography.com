@@ -1,0 +1,556 @@
+html *
+{
+   font-family: Helvetica !important;
+}
+
+body {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+  border: 0px;
+  padding-right: 5px; /* compensate for the grid gap below*/
+  background-image: url("img/paperB.png");
+  background-color: #DECAAF;
+}
+
+.wrapper {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: calc(62%) calc(38%);
+  grid-template-rows: 6vh 35vh 12vh 21vh 15vh 5vh;
+  
+}
+
+.cont{
+    border-radius: 12px;
+    border: 2px solid black;
+}
+
+.pageTitle {
+    grid-column: 1;
+    grid-row: 1;
+    background-color: none;
+    font-size: 3vmin;
+    color: black;
+    display: flex;
+    justify-content: center;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-auto-flow: column;
+    align-items: center;
+    border: none;
+}
+
+.cmecLogo {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.4vmin;
+    display: flex;
+    justify-content: flex-end;
+    background-color: none;
+    align-items: center;
+    border: none;
+}
+
+.cmecLogo > img {
+   max-height: 100%;
+   max-width: 50%;
+}
+
+.mainMap {
+    position: relative;
+    grid-column: 1 ;
+    grid-row: 2 / span 2;
+    background-color: rgba(250, 250, 250, 0.3);
+
+}
+.secMap {
+    position: relative;
+    grid-column: 2 ;
+    grid-row: 2 ;
+    background-color: rgba(250, 250, 250, 0.3);
+}
+.xy {
+    grid-column: 2 ;
+    grid-row: 3 / span 3;
+    background-color: rgba(250, 250, 250, 0.3);
+}
+
+.controls {
+    position: relative;
+    grid-column: 1;
+    grid-row: 4 ;
+    background-color: rgba(250, 250, 250, 0.3);
+    display: grid;
+    grid-column-gap: 2%;
+    grid-template-columns: 20% 28% 27% calc(25% - 3*2%); /* minus grid gap*/
+    grid-template-rows: 15% 85%; /* minus padding and grid gap*/
+    padding: 3px;
+}
+
+.infoPanel {
+    grid-column: 1 ;
+    grid-row: 5 ;
+    background-color: rgba(250, 250, 250, 0.3);
+    display: grid;
+    grid-column-gap: 5px;
+    grid-row-gap: 0px;
+    grid-template-columns: 30% calc(70% - 5px); /* minus grid gap*/
+    grid-template-rows: 20% calc(80%); /* minus grid gap*/
+    padding: 3px;
+}
+
+
+/************* zoom buttons *********************/
+
+.zoomInMain, .zoomOutMain, .zoomInSec, .zoomOutSec{
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+    font-size: 2vw;
+    opacity: 0.6;
+    text-align: center;
+    font-family: Courier;
+    border: none;
+    border-radius: 50%;
+    cursor:pointer;
+    overflow: hidden;
+    outline: none;
+    width: 2.5vw;
+    height: 2.5vw;
+    padding: 0px;
+}
+
+.zoomInMain:hover, .zoomOutMain:hover, .zoomInSec:hover, .zoomOutSec:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 1
+    }
+
+.zoomInMain, .zoomInSec{
+    position: absolute;
+    top: 2%;
+    left: 3%;  
+}
+
+.zoomOutMain, .zoomOutSec{
+    position: absolute;
+    top: 2%;
+    left: calc(3% + 2.5vw);
+}
+
+/************* control panel *********************/
+.ctrHeader{
+    font-size: 1.3vw;
+    text-align: center;
+    border-radius: 0px;
+    background-color: none;
+    line-height: calc(0.15*21vh - 2*3px); /*same as the grid row height*/
+    border-bottom: 3px dashed grey;
+}
+
+.contr {
+    border-radius: 0px;
+    background-color: none ;
+    border: none;
+}
+
+.a {
+    grid-column: 1;
+    grid-row: 1;  
+}
+
+.b {
+    grid-column: 2;
+    grid-row: 1;  
+}
+
+.c {
+    grid-column: 3;
+    grid-row: 1;  
+}
+
+.d {
+    grid-column: 4;
+    grid-row: 1;  
+}
+
+
+/*********** Data set selectors ***/
+.dataChoose{
+    position: relative;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.locusLabel, .scaleLabel {
+    position: absolute;
+    font-size: 1.1vw;
+    left: 1vw;
+}
+
+.locusLabel{
+    top: 5%;
+}
+
+.scaleLabel{
+    top: 52%;
+}
+
+.locusSelect, .scaleSelect{
+    position: absolute;
+    top: 120%;
+    left: 0%;
+    font-size: 1.1vw;
+}
+
+/*********** Subset selectors ****/
+.subsetChoose {
+    position: relative;
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.taxonCoverLabel, .seqNumberLabel{
+    position: absolute;
+    font-size: 1.1vw;
+    left: 0.9vw;
+    height: 30%;
+    width: 95%;
+}
+
+.taxonCoverLabel {
+    top: 5%;
+}
+
+.seqNumberLabel {
+    top: 60%;
+}
+
+.sliderTaxonCoverCont, .sliderSeqNumberCont{
+    width: 100%;
+    height: 65%;
+}
+
+.sliderLine{/*both sliders*/
+    stroke-linecap: round;
+    stroke: #000;
+    stroke-opacity: 0.3;
+    stroke-width: 5%;
+}
+
+/*the surface of the drag events*/
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: pointer;
+}
+
+.handle {
+  fill: #fff;
+  fill-opacity: 0.5;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
+
+/*boolean buttons*/
+.orButton , .andButton {
+    cursor: pointer;
+    position: absolute;
+    font-size: 1.1vw;
+    top: 40%;
+}
+
+.orButton {
+    left: 15%;
+}
+
+.andButton {
+    left: 45%;
+}
+
+/*********** Variable selectors ***/
+.variableChoose{
+    position: relative;
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.responseLabel, .predictorLabel {
+    position: absolute;
+    font-size: 1.1vw;
+    left: 0.4vw;
+}
+
+.responseLabel{
+    top: 5%;
+}
+
+.predictorLabel{
+    top: 52%;
+}
+
+.responseSelect, .predictSelect{
+    position: absolute;
+    top: 120%;
+    left: 0%;
+    font-size: 1.1vw;
+}
+
+/*********** update button ******/
+.applyButtons{
+    grid-column: 4 ;
+    grid-row: 2 ;
+    text-align: center;
+    padding-top: 6%;
+}
+.updateBut{
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 1.4vw;
+    opacity: 1;
+    border: 2px solid black;
+    border-radius: 12px;
+    cursor:pointer;
+    outline: none;
+    width: 80%;
+    height: 40%;
+}
+
+.downloadButCSV{
+    margin-top: 4%;
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 0.8vw;
+    opacity: 1;
+    border: 2px solid black;
+    border-radius: 12px;
+    cursor:pointer;
+    outline: none;
+    width: 70%;
+    height: 17%;
+}
+
+.downloadButJSON{
+    margin-top: 4%;
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 0.8vw;
+    opacity: 1;
+    border: 2px solid black;
+    border-radius: 12px;
+    cursor:pointer;
+    outline: none;
+    width: 70%;
+    height: 17%;
+}
+
+.downloadButSeqs{
+    margin-top: 4%;
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 0.8vw;
+    opacity: 1;
+    border: 2px solid black;
+    border-radius: 12px;
+    cursor:pointer;
+    outline: none;
+    width: 70%;
+    height: 17%;
+}
+
+/************* info panel ***************/
+.infoHead {
+    font-size: 1.3vw;
+    line-height: calc(0.2*15vh - 2*3px); /*same as the grid row height*/
+    background-color: none;
+    border-radius: 0px;
+    text-align: center;
+    border: none;
+}
+
+.info {
+    background-color: none;
+    border-radius: 0px;
+    text-align: center;
+    line-height: 2.2vh;
+    padding-top: 0.15vh;
+    font-size: 1vw;
+}
+
+.spatialUnitA{
+    grid-column: 1;
+    grid-row: 1;
+    border-bottom: 1px solid black;
+    
+}
+
+.spatialUnitB{
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.taxaA{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.taxaB {
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    grid-row-gap: 2px;
+    grid-template-columns: repeat(6, 1fr); 
+    grid-template-rows: repeat(2, 50%);
+    grid-column-gap: 1px;
+    grid-row-gap: 1px;
+    background-color: none;
+    padding-top: 0vh;
+}
+
+.taxaB > div {
+    background-color: none;
+    position:relative;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+
+.order > img {
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 0px;
+    max-height: 0px;
+}
+
+.ord {
+    position: absolute;
+    bottom: 15%;
+    left: 5%;
+    font-size: 1.1vw;
+    color: grey;
+    font-weight: bold;
+}
+
+.ordGD {
+    position: absolute;
+    top: 5%;
+    left: 3%;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+/*********** map/plot style *************/
+.graticuleLines {
+    fill: white;
+    fill-opacity: 0;
+    stroke: rgba(0 ,0 ,0 , 0.1);
+    stroke-width: 1;
+}
+
+.lonLatLabels {
+    font-size: 1vw;
+    alignment-baseline: middle;
+    text-anchor: start;
+    fill: black;
+}
+
+.land {
+    fill: #E0E0E0;
+    fill-opacity: 1;
+}
+
+.coast {
+    fill: none;
+    stroke: black;
+    stroke-width: 0.1;
+    stroke-opacity: 1;
+}
+
+.spatialUnits{
+    stroke: white;
+    stroke-width: 0.5;
+}
+
+.colorLeg {
+    transform: translate(5%, 93%);
+    background: white;
+}
+
+.selectedCells{
+    fill-opacity: 0.5;
+    stroke: black;
+    stroke-width: 2;
+}
+
+.xyPoints{
+    fill: black;
+}
+
+.xyPointsBack{
+    fill: black;
+    fill-opacity: 0.07;
+}
+
+.selectedPoints{
+    stroke: red;
+    stroke-width: 1%;
+    fill: red;
+}
+
+.yAxis text {
+    font-size: 0.7vw;
+}
+
+.xAxis text {
+    font-size: 0.7vw;
+}
+
+.xyInfo {
+    transform: translate(2%, 5%); 
+}
+
+.histo {
+    fill: black;
+    fill-opacity: 1;
+    stroke: black;
+    stroke-width: 1;
+}
+
+/*********** footer *************/
+.footer {
+    grid-column: 1 / span 2;
+    grid-row: 6;
+    background-color: none;
+    display: grid;
+    padding-left: 10px;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-auto-flow: column;
+    align-items: center;
+    border: none;
+}
+
+.linkContainer {
+    position: relative;
+    font-size:1.6vmin;
+    padding-right: 20px;
+}
+
+.linkContainer img{
+    vertical-align: middle
+}
+
+#gitLink {
+    text-decoration: none;
+    color: black;
+}
+
+#gitLink:hover span{
+    text-decoration: underline;
+    color: #6495ED;
+}
+
+#gitLogo {
+    max-height: 3vh;
+}
+
