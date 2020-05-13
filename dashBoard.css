@@ -413,8 +413,11 @@ body {
 
 .order > img {
     position: absolute;
-    bottom: 5%;
-    right: 3%;
+    bottom: 1%;
+    right: 1%;
+    display: block;
+    width: auto;
+    height: auto;
     max-width: 0px;
     max-height: 0px;
 }

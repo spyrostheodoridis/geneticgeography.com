@@ -745,22 +745,23 @@ function handleMouseOver(c, i) {  // Add interactivity
     d3.selectAll('.order').data(Object.keys(ordD))
             .each(function(d){
 
+                const contWidth = d3.select(this).node().getBoundingClientRect().width
+                const cWidth = contWidth*0.6 - contWidth*0.05
+
+                const contHeight = d3.select(this).node().getBoundingClientRect().height
+                const cHeight = contHeight - contHeight*0.1
+
                 d3.select(this)
                     .append('img')
                     .attr('src', d=>'img/' + d + '.png')
                     .attr('alt', d=>d)
                     .on('load', function() {
-                        const imgW = d3.select(this).node().naturalWidth;
-                        const imgH = d3.select(this).node().naturalHeight;
 
-                        if (imgW > imgH){
-                            d3.select(this).style('max-width', '60%')
-                            d3.select(this).style('max-height', '80%')
-                        } else {
-                            d3.select(this).style('max-width', '70%')
-                            d3.select(this).style('max-height', '80%')
-                        }
+                        //const imgW = d3.select(this).node().naturalWidth;
+                        //const imgH = d3.select(this).node().naturalHeight;
 
+                        d3.select(this).style('max-width', cWidth + 'px')
+                        d3.select(this).style('max-height', cHeight + 'px')
 
                     });
 
