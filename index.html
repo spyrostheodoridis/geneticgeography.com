@@ -12,10 +12,16 @@
   </script>
 
   <script>
-   var isFirefox = typeof InstallTrigger !== 'undefined';
+   let isFirefox = typeof InstallTrigger !== 'undefined';
    if (isFirefox == true){
-    alert('The web app is not supported by Firefox. PLease use new versions of Chrome, Safari, Opera')
+    alert('The web app is not supported by Firefox. Please use modern Desktop versions of Chrome, Safari, Opera')
    }
+
+   let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+   if (isMobile == true){
+    alert('The web app does not support devices with low screen resolution, such as mobile phones. Please use use modern Desktop versions of Chrome, Safari, Opera')
+   }
+
   </script>
 
   <meta charset="utf-8">
